@@ -1,25 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Categories</title>
-</head>
-<body>
+@extends('layouts.admin')
 
-    <h2>{{ $title }}</h2> 
+@section('title')
+{{ $title }} <a href="{{ route('categories.create') }}">Create</a>
+@endsection
 
-    <table>
+@section('breadcrumb')
+<ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item active">Categories</li>
+</ol>
+@endsection
+
+@section('content')
+
+    <table class="table">
         <thead>
             <tr>
-                <td>$loop</td>
-                <td>ID</td>
-                <td>Name</td>
-                <td>Slug</td>
-                <td>Parent ID</td>
-                <td>Status</td>
-                <td>Created At</td>
+                <th>$loop</th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Slug</th>
+                <th>Parent ID</th>
+                <th>Status</th>
+                <th>Created At</th>
             </tr>
         </thead>
         <tbody>
@@ -36,6 +39,6 @@
             @endforeach
         </tbody>
     </table>
-    
-</body>
-</html>
+
+@endsection
+
