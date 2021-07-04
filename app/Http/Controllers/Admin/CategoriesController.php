@@ -5,13 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use stdClass;
-use Traversable;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
 class CategoriesController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -52,9 +51,13 @@ class CategoriesController extends Controller
             return;
         }*/
 
+        $success = session()->get('success');
+        //session()->forget('success');
+
         return view('admin.categories.index', [
             'categories' => $entries,
             'title' => 'Categories List',
+            'success' => $success,
         ]);
     }
 
@@ -66,7 +69,8 @@ class CategoriesController extends Controller
     public function create()
     {
         $parents = Category::all();
-        return view('admin.categories.create', compact('parents'));
+        $category = new Category();
+        return view('admin.categories.create', compact('category', 'parents'));
     }
 
     /**
@@ -116,6 +120,7 @@ class CategoriesController extends Controller
         // ]);
         //$category->save();
 
+        // PRG
         return redirect()->route('categories.index');
     }
 
@@ -138,7 +143,11 @@ class CategoriesController extends Controller
      */
     public function edit($id)
     {
-        //
+        //$category = Category::where('id', '=', $id)->first();
+        $category = Category::find($id);
+        $parents = Category::where('id', '<>', $category->id)->get();
+
+        return view('admin.categories.edit', compact('category', 'parents'));
     }
 
     /**
@@ -150,7 +159,31 @@ class CategoriesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->merge([
+            'slug' => Str::slug($request->name)
+        ]);
+
+        // Mass assignemnt
+        //Category::where('id', '=', $id)->update( $request->all() );
+
         //
+        $category = Category::find($id);
+        
+        // Method #1
+        /*$category->name = $request->post('name');
+        $category->parent_id = $request->post('parent_id');
+        $category->description = $request->post('description');
+        $category->status = $request->post('status');
+        $category->save();*/
+
+        # Method #2: Mass assignemnt
+        $category->update( $request->all() );
+
+        # Method #3: Mass assignment
+        //$category->fill( $request->all() )->save();
+
+        // PRG
+        return redirect()->route('categories.index');
     }
 
     /**
@@ -161,6 +194,28 @@ class CategoriesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // Method #1
+        // $category = Category::find($id);
+        // $category->delete();
+
+        // Method #2
+        Category::destroy($id);
+
+        // Method #3
+        // Category::where('id', '=', $id)->delete();
+
+        // Write into session
+        //Session::put();
+        //session()->put('success', 'Category deleted');
+        // session([
+        //     'success' => 'Category deleted!',
+        // ]);
+
+        //session()->flash('success', 'Category deleted');
+
+        // PRG
+        return redirect()->route('categories.index')
+            ->with('success', 'Category deleted');
+
     }
 }
