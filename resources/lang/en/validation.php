@@ -151,6 +151,10 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'parent_id' => 'الأب',
+        'email' => 'email address',
+        'name' => 'الاسم',
+    ],
 
 ];

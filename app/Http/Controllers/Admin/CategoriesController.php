@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Throwable;
 
 class CategoriesController extends Controller
 {
@@ -79,11 +82,41 @@ class CategoriesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
+        // Validation rules
+        $rules = [
+            'name' => 'required|string|max:255|min:3|unique:categories',
+            'parent_id' => 'required|int|exists:categories,id',
+            'description' => 'nullable|min:5',
+            'status' => 'required|in:active,draft',
+            'image' => 'image|max:512000|dimensions:min_width=300,min_height=300',
+        ];
+        /*$clean = $request->validate($rules, [
+            'required' => 'The :attribute required!',
+            'parent_id.required' => 'The parent is required!',
+        ]);*/
+        //$clean = $this->validate($request, $rules, []);
+
+        /*$data = $request->all();
+        $validator = Validator::make($data, $rules, []);
+        //$clean = $validator->validate();
+        try {
+            $clean = $validator->validated();
+        } catch (Throwable $e) {
+            //return $validator->failed();
+            return redirect()->back()->withErrors($validator)
+                ->withInput();
+        }*/
+        
+        /*if ($validator->fails()) {
+            //$errors = $validator->errors();
+            return redirect()->back()->withErrors($validator);
+        }*/
+
         // Request Merge
         $request->merge([
-            'slug' => Str::slug($request->post('name')),
+            'slug' => Str::slug($request->name),
             'status' => 'active',
         ]);
 
@@ -121,7 +154,8 @@ class CategoriesController extends Controller
         //$category->save();
 
         // PRG
-        return redirect()->route('categories.index');
+        return redirect()->route('categories.index')
+            ->with('success', 'Category created');
     }
 
     /**
@@ -157,8 +191,17 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CategoryRequest $request, $id)
     {
+        /*$rules = [
+            'name' => 'required|string|max:255|min:3|unique:categories',
+            'parent_id' => 'nullable|int|exists:categories,id',
+            'description' => 'nullable|min:5',
+            'status' => 'required|in:active,draft',
+            'image' => 'image|max:512000|dimensions:min_width=300,min_height=300',
+        ];
+        $clean = $request->validate($rules);*/
+        
         $request->merge([
             'slug' => Str::slug($request->name)
         ]);
@@ -183,7 +226,8 @@ class CategoriesController extends Controller
         //$category->fill( $request->all() )->save();
 
         // PRG
-        return redirect()->route('categories.index');
+        return redirect()->route('categories.index')
+            ->with('success', 'Category updated');
     }
 
     /**
