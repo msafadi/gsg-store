@@ -28,5 +28,5 @@ Route::get('/admin/categories/{id}/edit', [CategoriesController::class, 'edit'])
 Route::put('/admin/categories/{id}', [CategoriesController::class, 'update'])->name('categories.update');
 Route::delete('/admin/categories/{id}', [CategoriesController::class, 'destroy'])->name('categories.destroy');
 
-//Route::resource('/admin/categories', 'Admin\CategoriesController');
+Route::resource('/admin/products', 'Admin\ProductsController');
 

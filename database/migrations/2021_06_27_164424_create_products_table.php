@@ -22,8 +22,8 @@ class CreateProductsTable extends Migration
             $table->text('description')->nullable();
             $table->string('image_path')->nullable();
             $table->unsignedFloat('price')->default(0);
-            $table->unsignedFloat('sale_price')->default(0);
-            $table->unsignedSmallInteger('quantity')->default(0);
+            $table->unsignedFloat('sale_price')->nullable()->default(0);
+            $table->unsignedSmallInteger('quantity')->nullable()->default(0);
             $table->string('sku')->unique()->nullable();
             $table->unsignedFloat('weight')->nullable();
             $table->unsignedFloat('width')->nullable();
