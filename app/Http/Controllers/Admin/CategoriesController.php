@@ -9,10 +9,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Unique;
 use Throwable;
 
 class CategoriesController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['auth', 'verified']);
+    }
 
     /**
      * Display a listing of the resource.
@@ -193,8 +200,13 @@ class CategoriesController extends Controller
      */
     public function update(CategoryRequest $request, $id)
     {
+        //$request->route('id');
         /*$rules = [
-            'name' => 'required|string|max:255|min:3|unique:categories',
+            'name' => ['required', 'string', 'max:255', 'min:3',
+                'unique:categries,id,' . $id,
+                Rule::unique('categories', 'id')->ignore($id),
+                (new Unique('categories', 'id'))->ignore($id),
+            ],
             'parent_id' => 'nullable|int|exists:categories,id',
             'description' => 'nullable|min:5',
             'status' => 'required|in:active,draft',

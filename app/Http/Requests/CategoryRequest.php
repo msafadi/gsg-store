@@ -24,13 +24,14 @@ class CategoryRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->route('id');
         return [
             'name' => [
                 'required',
                 'string',
                 'max:255',
                 'min:3',
-                'unique:categories',
+                'unique:categories,id,' . $id,
                 function($attribute, $value, $fail) {
                     if (stripos($value, 'god') !== false) {
                         $fail('You cannot use "god" word in your input');

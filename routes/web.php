@@ -1,8 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoriesController;
-use App\Http\Controllers\ProductsController;
-use App\Http\Controllers\WelcomeController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,13 +19,26 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/admin/categories', 'Admin\CategoriesController@index')->name('categories.index');
-Route::get('/admin/categories/create', [CategoriesController::class, 'create'])->name('categories.create');
-Route::post('/admin/categories', [CategoriesController::class, 'store'])->name('categories.store');
-Route::get('/admin/categories/{id}', [CategoriesController::class, 'show'])->name('categories.show');
-Route::get('/admin/categories/{id}/edit', [CategoriesController::class, 'edit'])->name('categories.edit');
-Route::put('/admin/categories/{id}', [CategoriesController::class, 'update'])->name('categories.update');
-Route::delete('/admin/categories/{id}', [CategoriesController::class, 'destroy'])->name('categories.destroy');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
-Route::resource('/admin/products', 'Admin\ProductsController');
+require __DIR__.'/auth.php';
 
+Route::get('/admin/categories', 'Admin\CategoriesController@index')
+    ->name('categories.index');
+Route::get('/admin/categories/create', [CategoriesController::class, 'create'])
+    ->name('categories.create');
+Route::post('/admin/categories', [CategoriesController::class, 'store'])
+    ->name('categories.store');
+Route::get('/admin/categories/{id}', [CategoriesController::class, 'show'])
+    ->name('categories.show');
+Route::get('/admin/categories/{id}/edit', [CategoriesController::class, 'edit'])
+    ->name('categories.edit');
+Route::put('/admin/categories/{id}', [CategoriesController::class, 'update'])
+    ->name('categories.update');
+Route::delete('/admin/categories/{id}', [CategoriesController::class, 'destroy'])
+    ->name('categories.destroy');
+
+Route::resource('/admin/products', 'Admin\ProductsController')
+    ->middleware(['auth', 'password.confirm']);
