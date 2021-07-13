@@ -13,11 +13,7 @@
 
 @section('content')
 
-    @if (Session::has('success'))
-    <div class="alert alert-success">
-        {{ Session::get('success') }}
-    </div>
-    @endif
+    <x-alert />
 
     <table class="table">
         <thead>

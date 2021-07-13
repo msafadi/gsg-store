@@ -12,12 +12,13 @@ Products <a href="{{ route('products.create') }}">Create</a>
 @endsection
 
 @section('content')
+    
+    <x-alert />
 
-    @if (Session::has('success'))
-    <div class="alert alert-success">
-        {{ Session::get('success') }}
-    </div>
-    @endif
+    <x-message type="info" :count="1 + 1" class="display-1">
+        <x-slot name="title">Info</x-slot>
+        Welcome to Laravel
+    </x-message>
 
     <table class="table">
         <thead>

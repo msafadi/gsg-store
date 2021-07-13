@@ -16,16 +16,7 @@
         @enderror
     </div>
     <div class="form-group">
-        <label for="">Category</label>
-        <select name="category_id" id="category_id" class="form-control @error('category_id') is-invalid @enderror">
-            <option value="">Select Category</option>
-            @foreach ($categories as $category)
-            <option value="{{ $category->id }}" @if($category->id == old('category_id', $product->category_id)) selected @endif>{{ $category->name }}</option>
-            @endforeach
-        </select>
-        @error('category_id')
-        <p class="invalid-feedback">{{ $message }}</p>
-        @enderror
+        <x-form-select name="category_id" label="Category" :options="$categories" :selected="$product->category_id" />
     </div>
     <div class="form-group">
         <label for="">Description</label>
@@ -42,60 +33,28 @@
         @enderror
     </div>
     <div class="form-group">
-        <label for="sku">SKU</label>
-        <input type="text" class="form-control @error('sku') is-invalid @enderror" name="sku" value="{{ old('sku', $product->sku) }}">
-        @error('sku')
-        <p class="invalid-feedback">{{ $message }}</p>
-        @enderror
+        <x-form-input type="text" name="sku" label="SKU" :value="$product->sku" />
     </div>
     <div class="form-group">
-        <label for="price">Price</label>
-        <input type="number" class="form-control @error('price') is-invalid @enderror" name="price" value="{{ old('price', $product->price) }}">
-        @error('price')
-        <p class="invalid-feedback">{{ $message }}</p>
-        @enderror
+        <x-form-input type="number" name="price" label="Price" :value="$product->price" />
     </div>
     <div class="form-group">
-        <label for="sale_price">Sale Price</label>
-        <input type="number" class="form-control @error('sale_price') is-invalid @enderror" name="sale_price" value="{{ old('sale_price', $product->sale_price) }}">
-        @error('sale_price')
-        <p class="invalid-feedback">{{ $message }}</p>
-        @enderror
+        <x-form-input type="number" name="sale_price" label="Sale Price" :value="$product->sale_price" />
     </div>
     <div class="form-group">
-        <label for="quantity">Quantity</label>
-        <input type="number" class="form-control @error('quantity') is-invalid @enderror" name="quantity" value="{{ old('quantity', $product->quantity) }}">
-        @error('quantity')
-        <p class="invalid-feedback">{{ $message }}</p>
-        @enderror
+        <x-form-input type="number" name="quantity" label="Quantity" :value="$product->quantity" />
     </div>
     <div class="form-group">
-        <label for="weight">Weight</label>
-        <input type="number" class="form-control @error('weight') is-invalid @enderror" name="weight" value="{{ old('weight', $product->weight) }}">
-        @error('weight')
-        <p class="invalid-feedback">{{ $message }}</p>
-        @enderror
+        <x-form-input type="number" name="weight" label="Weight" :value="$product->weight" />
     </div>
     <div class="form-group">
-        <label for="width">Width</label>
-        <input type="number" class="form-control @error('width') is-invalid @enderror" name="width" value="{{ old('width', $product->width) }}">
-        @error('width')
-        <p class="invalid-feedback">{{ $message }}</p>
-        @enderror
+        <x-form-input type="number" name="width" label="Width" :value="$product->width" />
     </div>
     <div class="form-group">
-        <label for="height">Height</label>
-        <input type="number" class="form-control @error('height') is-invalid @enderror" name="height" value="{{ old('height', $product->height) }}">
-        @error('height')
-        <p class="invalid-feedback">{{ $message }}</p>
-        @enderror
+        <x-form-input type="number" name="height" label="Height" :value="$product->height" />
     </div>
     <div class="form-group">
-        <label for="length">Length</label>
-        <input type="number" class="form-control @error('length') is-invalid @enderror" name="length" value="{{ old('length', $product->length) }}">
-        @error('length')
-        <p class="invalid-feedback">{{ $message }}</p>
-        @enderror
+        <x-form-input type="number" name="length" label="Length" :value="$product->length" />
     </div>
     
     <div class="form-group">
