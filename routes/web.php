@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoriesController;
+use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +39,14 @@ Route::put('/admin/categories/{id}', [CategoriesController::class, 'update'])
     ->name('categories.update');
 Route::delete('/admin/categories/{id}', [CategoriesController::class, 'destroy'])
     ->name('categories.destroy');
+
+
+Route::get('/admin/products/trash', [ProductsController::class, 'trash'])
+    ->name('products.trash');
+Route::put('/admin/products/trash/{id?}', [ProductsController::class, 'restore'])
+    ->name('products.restore');
+Route::delete('/admin/products/trash/{id?}', [ProductsController::class, 'forceDelete'])
+    ->name('products.force-delete');
 
 Route::resource('/admin/products', 'Admin\ProductsController')
     ->middleware(['auth', 'password.confirm']);

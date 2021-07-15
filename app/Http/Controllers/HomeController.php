@@ -9,7 +9,12 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $products = Product::latest()->limit(10)->get();
+        $products = Product::latest()
+            ->active()
+            ->price(200, 500)
+            ->limit(10)
+            ->get();
+            
         return view('home', [
             'products' => $products,
         ]);

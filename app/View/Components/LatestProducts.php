@@ -16,7 +16,9 @@ class LatestProducts extends Component
      */
     public function __construct($count = 10)
     {
-        $this->products = Product::latest()->limit($count)->get();
+        $this->products = Product::latest()
+            ->active()->price(100)
+            ->limit($count)->get();
     }
 
     /**

@@ -18,7 +18,7 @@ class CategoriesController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['auth', 'verified']);
+        $this->middleware(['auth']);
     }
 
     /**
@@ -45,6 +45,7 @@ class CategoriesController extends Controller
             //->where('categories.status', '=', 'active')
             ->orderBy('categories.created_at', 'DESC')
             ->orderBy('categories.name', 'ASC')
+            ->withTrashed()
             ->get();
 
         // return collection of stdObj object
@@ -185,8 +186,11 @@ class CategoriesController extends Controller
     public function edit($id)
     {
         //$category = Category::where('id', '=', $id)->first();
-        $category = Category::find($id);
-        $parents = Category::where('id', '<>', $category->id)->get();
+        $category = Category::findOrFail($id);
+        if (!$category) {
+            abort(404);
+        }
+        $parents = Category::withTrashed()->where('id', '<>', $category->id)->get();
 
         return view('admin.categories.edit', compact('category', 'parents'));
     }
