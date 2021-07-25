@@ -4,7 +4,9 @@
 <div class="d-flex justify-content-between">
     <h2>Products</h2>
     <div class="">
+        @can('create', App\Models\Product::class)
         <a class="btn btn-sm btn-outline-primary" href="{{ route('products.create') }}">Create</a>
+        @endcan
         <a class="btn btn-sm btn-outline-dark" href="{{ route('products.trash') }}">Trash</a>
     </div>
 </div>
@@ -50,12 +52,19 @@
                 <td>{{ $product->quantity }}</td>
                 <td>{{ $product->status }}</td>
                 <td>{{ $product->created_at }}</td>
-                <td><a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-dark">Edit</a></td>
-                <td><form action="{{ route('products.destroy', $product->id) }}" method="post">
+                <td>
+                @can('update', $product)    
+                <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-dark">Edit</a>
+                @endcan
+                </td>
+                <td>@can('delete', $product)
+                    <form action="{{ route('products.destroy', $product->id) }}" method="post">
                     @csrf
                     @method('delete')
                     <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                </form></td>
+                </form>
+                @endcan
+                </td>
             </tr>
             @endforeach
         </tbody>

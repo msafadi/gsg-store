@@ -59,15 +59,11 @@
                     <button type="submit" class="btn btn-sm btn-warning">Restore</button>
                 </form>
                 </td>
-                <td>
-                @can('force-delete', $product)    
-                <form action="{{ route('products.force-delete', $product->id) }}" method="post">
+                <td><form action="{{ route('products.force-delete', $product->id) }}" method="post">
                     @csrf
                     @method('delete')
                     <button type="submit" class="btn btn-sm btn-danger">Delete Forever</button>
-                </form>
-                @endcan
-                </td>
+                </form></td>
             </tr>
             @endforeach
         </tbody>

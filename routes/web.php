@@ -26,12 +26,14 @@ Route::get('/dashboard', function () {
 require __DIR__.'/auth.php';
 
 Route::get('/admin/categories', 'Admin\CategoriesController@index')
-    ->name('categories.index');
+    ->name('categories.index')
+    ->middleware(['auth', 'can:categories.view-any']);
 Route::get('/admin/categories/create', [CategoriesController::class, 'create'])
-    ->name('categories.create');
+    ->name('categories.create')
+    ->middleware(['auth', 'can:categories.create']);
 Route::post('/admin/categories', [CategoriesController::class, 'store'])
     ->name('categories.store');
-Route::get('/admin/categories/{id}', [CategoriesController::class, 'show'])
+Route::get('/admin/categories/{category}', [CategoriesController::class, 'show'])
     ->name('categories.show');
 Route::get('/admin/categories/{id}/edit', [CategoriesController::class, 'edit'])
     ->name('categories.edit');
@@ -43,10 +45,14 @@ Route::delete('/admin/categories/{id}', [CategoriesController::class, 'destroy']
 
 Route::get('/admin/products/trash', [ProductsController::class, 'trash'])
     ->name('products.trash');
-Route::put('/admin/products/trash/{id?}', [ProductsController::class, 'restore'])
-    ->name('products.restore');
+Route::put('/admin/products/trash/{product?}', [ProductsController::class, 'restore'])
+    ->name('products.restore')
+    ->middleware(['auth', 'can:restore,product']);
 Route::delete('/admin/products/trash/{id?}', [ProductsController::class, 'forceDelete'])
     ->name('products.force-delete');
 
 Route::resource('/admin/products', 'Admin\ProductsController')
     ->middleware(['auth', 'password.confirm']);
+
+Route::resource('/admin/roles', 'Admin\RolesController')
+    ->middleware(['auth']);

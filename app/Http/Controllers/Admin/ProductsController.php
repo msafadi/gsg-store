@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\User;
 use App\Scopes\ActiveStatusScope;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -19,6 +21,8 @@ class ProductsController extends Controller
      */
     public function index()
     {
+        $this->authorize('view-any', Product::class);
+
         $products = Product::withoutGlobalScopes([ActiveStatusScope::class])
             ->join('categories', 'categories.id', '=', 'products.category_id')
             ->select([
@@ -40,6 +44,11 @@ class ProductsController extends Controller
      */
     public function create()
     {
+        /*if (!Gate::allows('products.create')) {
+            abort(403);
+        }*/
+        $this->authorize('create', Product::class);
+
         $categories = Category::pluck('name', 'id');
 
         return view('admin.products.create', [
@@ -56,6 +65,11 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
+        /*if (!Gate::allows('products.create')) {
+            abort(403);
+        }*/
+        $this->authorize('create', Product::class);
+
         $request->validate(Product::validateRules());
 
         /*$request->merge([
@@ -77,6 +91,9 @@ class ProductsController extends Controller
     public function show($id)
     {
         $product = Product::withoutGlobalScope('active')->findOrFail($id);
+
+        $this->authorize('view', $product);
+
         return view('admin.products.show', [
             'product' => $product,
         ]);
@@ -91,6 +108,8 @@ class ProductsController extends Controller
     public function edit($id)
     {
         $product = Product::withoutGlobalScope('active')->findOrFail($id);
+        $this->authorize('update', $product);
+
         return view('admin.products.edit', [
             'product' => $product,
             'categories' => Category::withTrashed()->pluck('name', 'id'),
@@ -104,9 +123,10 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Product $product)
     {
-        $product = Product::withoutGlobalScope('active')->findOrFail($id);
+        //$product = Product::withoutGlobalScope('active')->findOrFail($id);
+        $this->authorize('update', $product);
 
         $request->validate( Product::validateRules() );
 
@@ -145,7 +165,13 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
+        //Gate::authorize('products.delete');
+
+        //$user = User::find(1);
+        //Gate::forUser($user)->allows('products.delete');
+
         $product = Product::withoutGlobalScope('active')->findOrFail($id);
+        $this->authorize('delete', $product);
         $product->delete();
 
         //Storage::disk('uploads')->delete($product->image_path);
@@ -163,10 +189,10 @@ class ProductsController extends Controller
         ]);
     }
 
-    public function restore(Request $request, $id = null)
+    public function restore(Request $request, ?Product $product = null)
     {
-        if ($id) {
-            $product = Product::withoutGlobalScope('active')->onlyTrashed()->findOrFail($id);
+        if ($product) {
+            //$product = Product::withoutGlobalScope('active')->onlyTrashed()->findOrFail($id);
             $product->restore();
 
             return redirect()->route('products.index')
