@@ -16,10 +16,10 @@ class Product extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    
+
     const STATUS_ACTIVE = 'active';
     const STATUS_DRAFT  = 'draft';
-    
+
     protected $fillable = [
         'name', 'slug', 'description', 'image_path', 'price', 'sale_price',
         'quantity', 'weight', 'width', 'height', 'length', 'status',
@@ -101,5 +101,11 @@ class Product extends Model
     {
         $fomatter = new NumberFormatter(App::getLocale(), NumberFormatter::CURRENCY);
         return $fomatter->formatCurrency($this->price, 'EUR');
+    }
+
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 }

@@ -37,7 +37,7 @@ class CategoriesController extends Controller
         ORDER BY created_at DESC, name ASC
         */
         // return collection of Category model object
-        $entries = Category::leftJoin('categories as parents', 'parents.id', '=', 'categories.parent_id')
+        /* $entries = Category::leftJoin('categories as parents', 'parents.id', '=', 'categories.parent_id')
             ->select([
                 'categories.*',
                 'parents.name as parent_name'
@@ -47,7 +47,7 @@ class CategoriesController extends Controller
             ->orderBy('categories.name', 'ASC')
             ->withTrashed()
             ->get();
-
+*/
         // return collection of stdObj object
         /*$entries = DB::table('categories')
             ->where('status', '=', 'active')
@@ -62,6 +62,8 @@ class CategoriesController extends Controller
             return;
         }*/
 
+        $entries = Category::withCount('products as count')->get();
+        //dd($categories);
         $success = session()->get('success');
         //session()->forget('success');
 
@@ -116,7 +118,7 @@ class CategoriesController extends Controller
             return redirect()->back()->withErrors($validator)
                 ->withInput();
         }*/
-        
+
         /*if ($validator->fails()) {
             //$errors = $validator->errors();
             return redirect()->back()->withErrors($validator);
@@ -172,9 +174,9 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $category)
     {
-        //
+        return $category->products->count();
     }
 
     /**
@@ -217,7 +219,7 @@ class CategoriesController extends Controller
             'image' => 'image|max:512000|dimensions:min_width=300,min_height=300',
         ];
         $clean = $request->validate($rules);*/
-        
+
         $request->merge([
             'slug' => Str::slug($request->name)
         ]);
@@ -227,7 +229,7 @@ class CategoriesController extends Controller
 
         //
         $category = Category::find($id);
-        
+
         // Method #1
         /*$category->name = $request->post('name');
         $category->parent_id = $request->post('parent_id');
@@ -236,7 +238,7 @@ class CategoriesController extends Controller
         $category->save();*/
 
         # Method #2: Mass assignemnt
-        $category->update( $request->all() );
+        $category->update($request->all());
 
         # Method #3: Mass assignment
         //$category->fill( $request->all() )->save();
@@ -276,6 +278,5 @@ class CategoriesController extends Controller
         // PRG
         return redirect()->route('categories.index')
             ->with('success', 'Category deleted');
-
     }
 }

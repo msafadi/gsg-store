@@ -64,7 +64,8 @@ class RolesController extends Controller
      */
     public function show($id)
     {
-        //
+        $role = Role::find($id);
+        return $role->users;
     }
 
     /**
@@ -77,7 +78,7 @@ class RolesController extends Controller
     {
         Gate::authorize('roles.update');
         $role = Role::findOrFail($id);
-        
+
         return view('admin.roles.edit', compact('role'));
     }
 

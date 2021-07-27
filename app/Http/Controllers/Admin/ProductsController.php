@@ -75,11 +75,10 @@ class ProductsController extends Controller
         /*$request->merge([
             'slug' => Str::slug($request->post('name')),
         ]);*/
-        $product = Product::create( $request->all() );
+        $product = Product::create($request->all());
 
         return redirect()->route('products.index')
             ->with('success', "Product ($product->name) created.");
-
     }
 
     /**
@@ -128,7 +127,7 @@ class ProductsController extends Controller
         //$product = Product::withoutGlobalScope('active')->findOrFail($id);
         $this->authorize('update', $product);
 
-        $request->validate( Product::validateRules() );
+        $request->validate(Product::validateRules());
 
         if ($request->hasFile('image')) {
             $file = $request->file('image'); // UplodedFile Object
@@ -151,7 +150,7 @@ class ProductsController extends Controller
             ]);
         }
 
-        $product->update( $request->all() );
+        $product->update($request->all());
 
         return redirect()->route('products.index')
             ->with('success', "Product ($product->name) updated.");
@@ -201,7 +200,7 @@ class ProductsController extends Controller
 
         Product::withoutGlobalScope('active')->onlyTrashed()->restore();
         return redirect()->route('products.index')
-                ->with('success', "All trashed products restored.");
+            ->with('success', "All trashed products restored.");
     }
 
     public function forceDelete($id = null)
@@ -216,6 +215,6 @@ class ProductsController extends Controller
 
         Product::withoutGlobalScope('active')->onlyTrashed()->forceDelete();
         return redirect()->route('products.index')
-                ->with('success', "All trashed products deleted forever.");
+            ->with('success', "All trashed products deleted forever.");
     }
 }

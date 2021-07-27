@@ -57,4 +57,18 @@ class User extends Authenticatable implements MustVerifyEmail
 
         return false;
     }
+
+
+    public function profile()
+    {
+        return $this->hasOne(Profile::class, 'user_id', 'id')->withDefault([
+            'address' => 'Not Entered',
+
+        ]);
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id', 'id', 'id');
+    }
 }
