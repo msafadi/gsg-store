@@ -24,10 +24,12 @@ class ProductsController extends Controller
         $this->authorize('view-any', Product::class);
 
         $products = Product::withoutGlobalScopes([ActiveStatusScope::class])
-            ->join('categories', 'categories.id', '=', 'products.category_id')
+            //->join('categories', 'categories.id', '=', 'products.category_id')
+            ->with('category.parent.parent')
+            ->with('user.country')
             ->select([
                 'products.*',
-                'categories.name as category_name',
+                //'categories.name as category_name',
             ])
             ->paginate(15);
 
@@ -89,7 +91,10 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-        $product = Product::withoutGlobalScope('active')->findOrFail($id);
+        $product = Product::withoutGlobalScopes()->findOrFail($id);
+
+        // SELECT * FROM ratings WHERE rateable_id = 5 AND rateable_type = 'App\Models\Product'
+        return $product->ratings()->dd();
 
         $this->authorize('view', $product);
 

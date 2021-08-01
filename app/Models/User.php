@@ -63,7 +63,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne(Profile::class, 'user_id', 'id')->withDefault([
             'address' => 'Not Entered',
-
         ]);
     }
 
@@ -71,4 +70,17 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id', 'id', 'id');
     }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class)->withDefault();
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    
+
 }

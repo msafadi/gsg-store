@@ -62,7 +62,7 @@ class Category extends Model
     public function parent()
     {
         return $this->belongsTo(self::class, 'parent_id', 'id')->withDefault([
-            'name' => 'Not Found'
+            'name' => 'No Parent'
         ]);
     }
 }
