@@ -9,14 +9,14 @@
     @endif
     
     <div class="form-group">
-        <label for="">Category Name</label>
+        <label for="">{{ __('Category Name') }}</label>
         <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name', $category->name) }}">
         @error('name')
         <p class="invalid-feedback">{{ $message }}</p>
         @enderror
     </div>
     <div class="form-group">
-        <label for="">Parent</label>
+        <label for="">{{ __('Parent') }}</label>
         <select name="parent_id" id="parent_id" class="form-control @error('parent_id') is-invalid @enderror">
             <option value="">No Parent</option>
             @foreach ($parents as $parent)
@@ -35,7 +35,7 @@
         @enderror
     </div>
     <div class="form-group">
-        <label for="">Image</label>
+        <label for="">{{ __('Image') }}</label>
         <input type="file" class="form-control @error('image') is-invalid @enderror" name="image">
         @error('image')
         <p class="invalid-feedback">{{ $message }}</p>

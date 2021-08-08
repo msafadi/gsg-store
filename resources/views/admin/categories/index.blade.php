@@ -15,17 +15,19 @@
 
 <x-alert />
 
+{{ trans_choice('app.categories_count', $categories->count(), ['number' => $categories->count()]) }}
+{{ __('Current Locale is :locale', ['locale' => App::getLocale()]) }}
 <table class="table">
     <thead>
         <tr>
             <th>$loop</th>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Slug</th>
-            <th>Parent NAme</th>
-            <th> Products Count </th>
-            <th>Status</th>
-            <th>Created At</th>
+            <th>{{ __('ID') }}</th>
+            <th>{{ trans('Name') }}</th>
+            <th>{{ Lang::get('Slug') }}</th>
+            <th>@lang('Parent Name')</th>
+            <th>{{ __('Products Count') }}</th>
+            <th>{{ __('Status') }}</th>
+            <th>{{ __('Created At') }}</th>
             <th></th>
             <th></th>
         </tr>
@@ -41,17 +43,19 @@
             <td>{{ $category->count }}</td>
             <td>{{ $category->status }}</td>
             <td>{{ $category->created_at }}</td>
-            <td><a href="{{ route('categories.edit', $category->id) }}" class="btn btn-sm btn-dark">Edit</a></td>
+            <td><a href="{{ route('categories.edit', $category->id) }}" class="btn btn-sm btn-dark">{{ __('app.edit') }}</a></td>
             <td>
                 <form action="{{ route('categories.destroy', $category->id) }}" method="post">
                     @csrf
                     @method('delete')
-                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    <button type="submit" class="btn btn-sm btn-danger">{{ __('Delete') }}</button>
                 </form>
             </td>
         </tr>
         @endforeach
     </tbody>
 </table>
+
+{{ $categories->links() }}
 
 @endsection

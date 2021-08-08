@@ -1,0 +1,11 @@
+{
+    "ID": "الرقم المعرف",
+    "Name": "الاسم",
+    "Slug": "الاسم اللطيف",
+    "Parent Name": "اسم الأب",
+    "Delete": "حذف",
+    "Category Name": "اسم التصنيف",
+    "Parent": "الأب",
+    "Image": "الصورة",
+    "Current Locale is :locale": "اللغة الحالية هي :locale"
+}

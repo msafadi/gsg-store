@@ -3,19 +3,23 @@
 This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
-<html lang="en">
+<html lang="{{ App::currentLocale() }}" dir="{{ App::currentLocale() == 'ar'? 'rtl' : 'ltr' }}">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Starter</title>
+    <title>{{ config('app.name') }}</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('assets/admin/plugins/fontawesome-free/css/all.min.css') }}">
     <!-- Theme style -->
+    @if (App::currentLocale() == 'ar')
+    <link rel="stylesheet" href="{{ asset('assets/admin/css/adminlte.rtl.min.css') }}">
+    @else
     <link rel="stylesheet" href="{{ asset('assets/admin/css/adminlte.min.css') }}">
+    @endif
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -59,7 +63,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </form>
                     </div>
                 </li>
-
+                <x-lang-switcher />
                 <!-- Messages Dropdown Menu -->
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">

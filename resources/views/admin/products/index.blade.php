@@ -32,7 +32,7 @@
         <thead>
             <tr>
                 <th></th>
-                <th>Name</th>
+                <th>{{ __('Name') }}</th>
                 <th>Category</th>
                 <th>Price</th>
                 <th>Qty.</th>
