@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\ProfilesController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RatingsController;
 use App\Http\Middleware\CheckUserType;
@@ -80,3 +81,6 @@ Route::namespace('Admin')
 
 Route::post('ratings/{type}', [RatingsController::class, 'store'])
     ->where('type', 'profile|product');
+
+Route::get('/cart', [CartController::class, 'index'])->name('cart');
+Route::post('/cart', [CartController::class, 'store']);
