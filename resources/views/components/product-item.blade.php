@@ -1,5 +1,5 @@
     <div class="ps-shoe mb-30">
-        <div class="ps-shoe__thumbnail"><a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img src="{{ asset('assets/front/images/shoe/7.jpg') }}" alt=""><a class="ps-shoe__overlay" href="product-detail.html"></a>
+        <div class="ps-shoe__thumbnail"><a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img src="{{ asset('assets/front/images/shoe/7.jpg') }}" alt=""><a class="ps-shoe__overlay" href="{{ route('product.details', $product->slug) }}"></a>
         </div>
         <div class="ps-shoe__content">
             <div class="ps-shoe__variants">
@@ -12,8 +12,8 @@
                     <option value="2">5</option>
                 </select>
             </div>
-            <div class="ps-shoe__detail"><a class="ps-shoe__name" href="#">{{ $product->name }}</a>
-                <p class="ps-shoe__categories"><a href="#">Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p><span class="ps-shoe__price"> £ {{ $product->price }}</span>
+            <div class="ps-shoe__detail"><a class="ps-shoe__name" href="{{ route('product.details', $product->slug) }}">{{ $product->name }}</a>
+                <p class="ps-shoe__categories">{{ $product->category->name }}</p><span class="ps-shoe__price"> £ {{ $product->price }}</span>
             </div>
         </div>
     </div>

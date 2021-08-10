@@ -31,6 +31,12 @@ class Product extends Model
         'quantity' => 'int',
     ];
 
+    protected $appends = [
+        'image_url',
+        'formatted_price',
+        'permalink',
+    ];
+
     protected $perPage = 20;
 
     protected static function booted()
@@ -77,6 +83,7 @@ class Product extends Model
         ];
     }
 
+    // image_url
     public function getImageUrlAttribute()
     {
         if (!$this->image_path) {
@@ -101,6 +108,11 @@ class Product extends Model
     {
         $fomatter = new NumberFormatter(App::getLocale(), NumberFormatter::CURRENCY);
         return $fomatter->formatCurrency($this->price, 'EUR');
+    }
+
+    public function getPermalinkAttribute()
+    {
+        return route('product.details', $this->slug);
     }
 
     public function category()

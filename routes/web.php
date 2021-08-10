@@ -77,6 +77,8 @@ Route::namespace('Admin')
         Route::get('profiles/{profile}', [ProfilesController::class, 'show']);
     });
 
+Route::get('products', 'ProductsController@index')->name('products');
+Route::get('products/{slug}', 'ProductsController@show')->name('product.details');
 
 
 Route::post('ratings/{type}', [RatingsController::class, 'store'])

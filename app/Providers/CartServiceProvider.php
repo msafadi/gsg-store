@@ -22,7 +22,7 @@ class CartServiceProvider extends ServiceProvider
         //
         //$repo = new SessionRepository();
         //$this->app->instance(CartRepository::class, $repo);
-        $this->app->singleton(CartRepository::class, function($app) {
+        $this->app->bind(CartRepository::class, function($app) {
             if (config('cart.driver') == 'cookie') {
                 return new CookieRepository();
             }
