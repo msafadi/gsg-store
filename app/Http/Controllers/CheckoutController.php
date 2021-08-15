@@ -77,7 +77,8 @@ class CheckoutController extends Controller
 
             DB::commit();
 
-            event(new OrderCreated($order));
+            //event('order.created', $order); // $order passed to the listener
+            event(new OrderCreated($order)); // $event passed to the listener
 
             // delete cart
             // send invoice

@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-use App\Models\Order;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -10,28 +9,24 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Auth;
 
-class OrderCreated implements ShouldBroadcast
+class MessageSent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    /**
-     * @var \App\Models\Order
-     */
-    public $order;
+    public $message;
 
-    public $user;
+    public $sender;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Order $order)
+    public function __construct($message, $sender)
     {
-        $this->order = $order;
-        $this->user = Auth::user();
+        $this->message = $message;
+        $this->sender = $sender;
     }
 
     /**
@@ -41,21 +36,6 @@ class OrderCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('orders');
-    }
-
-    public function broadcastWith()
-    {
-        return [
-            'order' => [
-                'id' => $this->order->id,
-                'number' => $this->order->number,
-            ],
-        ];
-    }
-
-    public function broadcastAs()
-    {
-        return 'order.created';
+        return new PresenceChannel('chat');
     }
 }
