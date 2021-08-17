@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoriesController;
+use App\Http\Controllers\Admin\NotificationsController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\ProfilesController;
 use App\Http\Controllers\CartController;
@@ -37,6 +38,9 @@ Route::namespace('Admin')
     ->prefix('{lang}/admin')
     ->middleware(['auth', 'auth.type:admin,super-admin'])
     ->group(function () {
+
+        Route::get('notifications', [NotificationsController::class, 'index'])->name('notifications');
+        Route::get('notifications/{id}', [NotificationsController::class, 'show'])->name('notifications.read');
 
         Route::group([
             'prefix' => '/categories',
