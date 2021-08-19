@@ -95,6 +95,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->mobile;
     }
 
+    public function routeNotificationForTwilio()
+    {
+        return $this->mobile;
+    }
+
+    public function routeNotificationForTweetSms()
+    {
+        return $this->mobile;
+    }
+
     public function receivesBroadcastNotificationsOn()
     {
         return 'Notifications.' . $this->id;

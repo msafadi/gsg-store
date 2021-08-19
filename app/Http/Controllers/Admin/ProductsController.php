@@ -14,6 +14,12 @@ use Illuminate\Support\Str;
 
 class ProductsController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(Product::class);
+    }
+
     /**
      * Display a listing of the resource.
      *
