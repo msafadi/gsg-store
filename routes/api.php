@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AccessTokensController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,8 +15,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('categories', 'Api\CategoriesController');
+Route::post('auth/tokens', [AccessTokensController::class, 'store']);
+Route::delete('auth/tokens', [AccessTokensController::class, 'destroy'])
+    ->middleware('auth:sanctum');
+
+Route::apiResource('categories', 'Api\CategoriesController')
+    ->middleware('auth:sanctum');
