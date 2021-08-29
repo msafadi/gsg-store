@@ -70,9 +70,7 @@
         </tbody>
     </table>
 
-
-    {{ $products->links() }}
-    
+    {{ $products->withQueryString()->links() }}    
 
 @endsection
 

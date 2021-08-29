@@ -57,7 +57,7 @@ class DatabaseRepository implements CartRepository
             'cookie_id' => $this->getCookieId(),
             'product_id' => ($item instanceof Product)? $item->id : $item,
         ], [
-            //'user_id' => Auth::id(),
+            'user_id' => Auth::id(),
             // quantity = quantity + 2
             'quantity' => DB::raw('quantity + ' . $qty),
         ]);
