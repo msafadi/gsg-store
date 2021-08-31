@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\NotificationsController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\ProfilesController;
+use App\Http\Controllers\Admin\UserProfileController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
@@ -32,7 +33,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth:web,admin'])->name('dashboard');
 
 // login (login)
-require __DIR__ . '/auth.php';
+/*require __DIR__ . '/auth.php';
 
 // admin/login (admin.login) -> Admin\AuthenicatedSessionController
 Route::prefix('admin')
@@ -41,13 +42,15 @@ Route::prefix('admin')
     ->group(function() {
 
         require __DIR__ . '/auth.php';
-});
-
+});*/
 
 Route::namespace('Admin')
-    ->prefix('{lang}/admin')
-    ->middleware(['auth:admin', 'auth.type:admin,super-admin'])
+    //->domain('admin.localhost')
+    ->prefix('admin')
+    ->middleware(['auth:admin,web', 'auth.type:admin,super-admin'])
     ->group(function () {
+
+        Route::get('profile', [UserProfileController::class, 'index'])->name('profile');
 
         Route::get('notifications', [NotificationsController::class, 'index'])->name('notifications');
         Route::get('notifications/{id}', [NotificationsController::class, 'show'])->name('notifications.read');

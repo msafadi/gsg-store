@@ -41,6 +41,15 @@ class Product extends Model
 
     protected static function booted()
     {
+        static::creating(function(Product $product) {
+            $slug = Str::slug($product->name);
+
+            $count = Product::where('slug', 'LIKE', "{$slug}%")->count();
+            if ($count) {
+                $slug .= '-' . ($count + 1);
+            }
+            $product->slug = $slug;
+        });
         //static::addGlobalScope(new ActiveStatusScope());
 
         /*static::addGlobalScope('owner', function(Builder $builder) {
