@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AccessTokensController;
+use App\Http\Controllers\Api\DeviceTokensController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,4 +25,7 @@ Route::delete('auth/tokens', [AccessTokensController::class, 'destroy'])
     ->middleware('auth:sanctum');
 
 Route::apiResource('categories', 'Api\CategoriesController')
+    ->middleware('auth:sanctum');
+
+Route::post('device/tokens', [DeviceTokensController::class, 'store'])
     ->middleware('auth:sanctum');

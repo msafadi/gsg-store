@@ -12,6 +12,8 @@ use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\RatingsController;
 use App\Http\Middleware\CheckUserType;
 use App\Models\Order;
+use App\Models\User;
+use App\Notifications\OrderCreatedNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -117,4 +119,8 @@ Route::get('/orders', function () {
 
 Route::get('chat', [MessagesController::class, 'index'])->name('chat');
 Route::post('chat', [MessagesController::class, 'store']);
+
+Route::get('/test-fcm', function() {
+    User::find(2)->notify(new OrderCreatedNotification(new Order));
+});
 

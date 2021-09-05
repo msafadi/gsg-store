@@ -39,9 +39,9 @@ class SendInvoiceListener
         }*/
         Notification::send($users, new OrderCreatedNotification($order) );
 
-        Notification::route('mail', ['info@example.com', 'admin@example.com'])
+        //Notification::route('mail', ['info@example.com', 'admin@example.com'])
             //->route('nexmo', '+97059885474')
-            ->notify( new OrderCreatedNotification($order) );
+            //->notify( new OrderCreatedNotification($order) );
         
         //Mail::to($order->billing_email)->send(new OrderInvoice($order));
     }

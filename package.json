@@ -22,5 +22,8 @@
         "postcss-import": "^14.0.1",
         "pusher-js": "^7.0.3",
         "tailwindcss": "^2.2.2"
+    },
+    "dependencies": {
+        "firebase": "^9.0.1"
     }
 }
