@@ -4,18 +4,22 @@ use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\NotificationsController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\ProfilesController;
+use App\Http\Controllers\Admin\SendEmailsController;
 use App\Http\Controllers\Admin\UserProfileController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MessagesController;
+use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\RatingsController;
 use App\Http\Middleware\CheckUserType;
 use App\Models\Order;
 use App\Models\User;
 use App\Notifications\OrderCreatedNotification;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -116,6 +120,10 @@ Route::get('/orders', function () {
     return Order::all();
 })->name('orders');
 
+Route::get('orders/{order}/payments/create', [PaymentsController::class, 'create'])->name('orders.payments.create');
+Route::get('orders/{order}/payments/callback', [PaymentsController::class, 'callback'])->name('orders.payments.return');
+Route::get('orders/{order}/payments/cancel', [PaymentsController::class, 'cancel'])->name('orders.payments.cancel');
+
 
 Route::get('chat', [MessagesController::class, 'index'])->name('chat');
 Route::post('chat', [MessagesController::class, 'store']);
@@ -123,4 +131,20 @@ Route::post('chat', [MessagesController::class, 'store']);
 Route::get('/test-fcm', function() {
     User::find(2)->notify(new OrderCreatedNotification(new Order));
 });
+
+Route::get('send/emails', [SendEmailsController::class, 'send']);
+
+// asset('storage/uploads/image.png')
+if (App::environment('production')) {
+    Route::get('storage/{file}', function($file) {
+
+        $filepath = storage_path('app/public/' . $file);
+        if (!is_file($filepath)) {
+            abort(404);
+        }
+
+        return response()->file($filepath);
+
+    })->where('file', '.+');
+}
 
