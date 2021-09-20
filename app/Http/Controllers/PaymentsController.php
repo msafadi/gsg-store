@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\PaymentException;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -23,6 +24,10 @@ class PaymentsController extends Controller
     public function create(Order $order)
     {
         if ($order->payment_status == 'paid') {
+            $e = new PaymentException('Order already paid!');
+            $e->setOrder($order);
+            throw $e;
+
             return redirect('orders')->with('status', 'Order already paid!');
         }
 

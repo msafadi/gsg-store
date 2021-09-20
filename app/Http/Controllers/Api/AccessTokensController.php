@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Laravel\Sanctum\PersonalAccessToken;
 
@@ -45,6 +46,11 @@ class AccessTokensController extends Controller
         $accessToken->forceFill([
             'ip' => $request->ip(),
         ])->save();*/
+
+        Log::info("User $user->name logged in from " . $request->ip(), [
+            'ip' => $request->ip(),
+            'device' => $request->input('device_name')
+        ]);
 
         return Response::json([
             'token' => $token->plainTextToken,

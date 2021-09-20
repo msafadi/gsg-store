@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoriesController;
+use App\Http\Controllers\Admin\ConfigsController;
 use App\Http\Controllers\Admin\NotificationsController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\ProfilesController;
@@ -55,6 +56,9 @@ Route::namespace('Admin')
     ->prefix('admin')
     ->middleware(['auth:admin,web', 'auth.type:admin,super-admin'])
     ->group(function () {
+
+        Route::get('settings', [ConfigsController::class, 'create'])->name('settings');
+        Route::post('settings', [ConfigsController::class, 'store']);
 
         Route::get('profile', [UserProfileController::class, 'index'])->name('profile');
 

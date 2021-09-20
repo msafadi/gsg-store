@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 class Category extends Model
 {
     use HasFactory;
-    use SoftDeletes;
+    // use SoftDeletes;
 
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
@@ -49,13 +49,13 @@ class Category extends Model
     // Accessors: get{AttributeName}Attribute
     // Exists Attribute
     // $model->name
-    public function getNameAttribute($value)
-    {
-        if ($this->trashed()) {
-            return $value . ' (Deleted)';
-        }
-        return $value;
-    }
+    // public function getNameAttribute($value)
+    // {
+    //     if ($this->trashed()) {
+    //         return $value . ' (Deleted)';
+    //     }
+    //     return $value;
+    // }
 
 
     // Non-exists Attribute

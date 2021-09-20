@@ -13,8 +13,6 @@
 
 @section('content')
 
-<x-alert />
-
 {{ trans_choice('app.categories_count', $categories->count(), ['number' => $categories->count()]) }}
 {{ __('Current Locale is :locale', ['locale' => App::getLocale()]) }}
 <table class="table">

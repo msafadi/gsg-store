@@ -235,6 +235,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
+                            <x-alert />
                             @yield('content')
                         </div>
                     </div>

@@ -73,12 +73,12 @@ class CategoriesController extends Controller
      */
     public function show($id)
     {
-        $category = Category::with('children')->find($id);
-        if (!$category) {
-            return Response::json([
-                'message' => 'Not Found',
-            ], 404);
-        }
+        $category = Category::with('children')->findOrFail($id);
+        // if (!$category) {
+        //     return Response::json([
+        //         'message' => 'Not Found',
+        //     ], 404);
+        // }
         return new CategoryResource($category);
     }
 
